@@ -1,0 +1,14 @@
+ <nav></nav>
+ <h1>
+     Användarinställningar
+ </h1>
+ <form class="form-indline">
+     <label for="displayName">visningsnamn</label>
+     <input type="text" id="displayName" placeholder="visningsnamn"
+     class="form-control" ng-model="vm.userPreferences.displayName">
+     <br><br>
+     <label for="themeColor">Tema färg</label>
+     <select name="themeColor" id="themeColor"
+     ng-model="vm.userPreferences.theme"
+     ng-options="theme for theme in vm.themes" class="form-control"></select>
+ </form>

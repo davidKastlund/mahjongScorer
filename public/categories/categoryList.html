@@ -1,0 +1,10 @@
+<nav></nav>
+<h1>Kategorier</h1>
+<div ng-repeat="catogory in vm.categories">
+    {{catogory.name}}
+</div>
+
+<input type="text" ng-model="vm.newCategoryName">
+<button class="btn btn-primary btn-sm" ng-click="vm.createNewCategory()">
+    Lägg till
+</button>

@@ -1,0 +1,30 @@
+<table class="table table-hover table-condensed">
+    <thead>
+        <th width="18%">Date</th>
+        <th width="18%">Batalare</th>
+        <th width="18%">Beskrivning</th>
+        <th width="18%">Kategori</th>
+        <th width="18%">Kostnad</th>
+        <th width="10%"></th>
+    </thead>
+    <tbody class="pointable">
+        <tr ng-repeat="expense in vm.expenses" 
+        ng-mouseenter="hovering = true" 
+        ng-mouseleave="hovering = false"
+        ng-click="vm.clickRow(expense)">
+            <td>{{expense.date | date:'shortDate'}}</td>
+            <td>{{expense.payee}}</td>
+            <td>{{expense.description}}</td>
+            <td>{{expense.category.name}}</td>
+            <td>{{expense.amount | currency}}</td>
+            <td>
+                <span ng-show="hovering" class="glyphicon glyphicon-remove"
+                ng-mouseenter="delhovering = true"
+                ng-mouseleave="delhovering = false"
+                ng-class="{'hover-delete': delhovering}"
+                ng-click="vm.deleteExpense(expense)">
+                    </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

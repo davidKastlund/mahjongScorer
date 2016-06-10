@@ -1,0 +1,85 @@
+<nav></nav>
+
+
+<!--<expense-list-display expense-data="vm.expensesInOrder" select-expense="vm.editExpense(expense)"></expense-list-display>
+
+<edit-expense categories="vm.categories" edited-expense="vm.editedExpense" create-new-expense="vm.createExpense(expenseData)"
+    update-expense="vm.saveEditedExpense()"></edit-expense>-->
+
+
+
+<div class="row">
+    <div class="col-sm-5">
+        <br><br>
+        <button ng-click="vm.addNewGame()" class="btn btn-primary btn-sm">
+      <span class="glyphicon glyphicon-plus"></span>
+      Skapa nytt spel</button>
+        <br><br>
+
+        <div class="list-group">
+            <a href="" ng-repeat="game in vm.games" ng-click="vm.selectGame(game)" class="list-group-item" ng-class="{'active': game.$id == vm.selectedGame.$id}">
+                {{game.title}} {{game.createdDate}}                                    
+            </a>
+        </div>
+        <div ng-if="vm.selectedGame">
+            <div ng-if="vm.rounds.length">
+                <game-diagram rounds="vm.rounds" game="vm.selectedGame"></game-diagram>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-5">
+        <div ng-if="vm.selectedGame">
+            <h3><input type="text" ng-model="vm.selectedGame.title" class="form-control" placeholder="Titel"></h3> {{vm.selectedGame['player'
+            + vm.selectedGame.whoIsWind].name}} har vind
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th ng-class="{'success': vm.selectedGame.player1.isEast}"><input type="text" class="form-control" ng-model="vm.selectedGame.player1.name"></th>
+                        <th><input type="text" class="form-control" ng-model="vm.selectedGame.player2.name"></th>
+                        <th><input type="text" class="form-control" ng-model="vm.selectedGame.player3.name"></th>
+                        <th><input type="text" class="form-control" ng-model="vm.selectedGame.player4.name"></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="round in vm.rounds" ng-mouseenter="showAll = true;" ng-mouseleave="showAll = false;">
+                        <td ng-class="{'success': round.player1.winner}">
+                            <player-for-round player="round.player1" show-all="showAll"></player-for-round>
+                        </td>
+                        <td ng-class="{'success': round.player2.winner}">
+                            <player-for-round player="round.player2" show-all="showAll"></player-for-round>
+                        </td>
+                        <td ng-class="{'success': round.player3.winner}">
+                            <player-for-round player="round.player3" show-all="showAll"></player-for-round>
+                        </td>
+                        <td ng-class="{'success': round.player4.winner}">
+                            <player-for-round player="round.player4" show-all="showAll"></player-for-round>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control" ng-model="vm.player1Score">
+                            <input type="radio" ng-model="vm.winner" value="1">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="vm.player2Score">
+                            <input type="radio" ng-model="vm.winner" value="2">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="vm.player3Score">
+                            <input type="radio" ng-model="vm.winner" value="3">
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="vm.player4Score">
+                            <input type="radio" ng-model="vm.winner" value="4">
+                        </td>
+                        <td><button class="btn btn-success btn-sm" ng-click="vm.addNewRound()">
+                               <span class="glyphicon glyphicon-plus"></span>
+   
+                            </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

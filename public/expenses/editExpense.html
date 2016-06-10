@@ -1,0 +1,13 @@
+<form class="form-inline">
+    <input type="text" placeholder="Datum" class="form-control" ng-model="vm.date">
+    <input type="text" placeholder="Betalare" class="form-control" ng-model="vm.payee">
+    <input type="text" placeholder="Beskrivning" class="form-control" ng-model="vm.description">
+    <select ng-model="vm.selectedCategory" 
+        ng-options="category.name for category in vm.categories track by category.$id" 
+        class="form-control">
+    </select>
+    <input type="text" placeholder="Kostnad" class="form-control" ng-model="vm.amount">
+    <button ng-show="!vm.editing" class="btn btn-primary btn-sm" ng-click="vm.create()">Lägg till</button>
+    <button ng-show="vm.editing" class="btn btn-primary btn-sm" ng-click="vm.save()">Spara</button>
+    <button ng-show="vm.editing" class="btn btn-warning btn-sm" ng-click="vm.cancel()">Avbryt</button>
+</form>

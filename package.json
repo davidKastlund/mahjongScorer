@@ -1,0 +1,12 @@
+{
+  "name": "fireBaseTest",
+  "version": "1.0.0",
+  "description": "an expense tracker",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server"
+  },
+  "keywords": [],
+  "author": "David Kastlund",
+  "license": "ISC"
+}
