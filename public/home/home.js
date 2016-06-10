@@ -5,7 +5,6 @@
             templateUrl: 'home/home.html',
             bindings: {
                 expensesInOrder: "=",
-                categories: "=",
                 games: "="
             },
             controllerAs: "vm",

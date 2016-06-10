@@ -20,13 +20,7 @@
                         return expenseList(query).$loaded();
                     })
                 },
-                categories: function (fbRef, $firebaseArray, auth) {
-                    return auth.$requireAuth().then(function () {
-                        var query = fbRef.getCategoriesRef().orderByChild("name");
-                        return $firebaseArray(query).$loaded();
-                    })
-                },
-                games: function (fbRef, $firebaseArray, auth) {
+                 games: function (fbRef, $firebaseArray, auth) {
                     return auth.$requireAuth().then(function () {
                         var query = fbRef.getGamesRef().orderByChild("name");
                         return $firebaseArray(query).$loaded();
@@ -41,17 +35,6 @@
                 userPreferences: function (fbRef, $firebaseObject, auth) {
                     return auth.$requireAuth().then(function () {
                         return $firebaseObject(fbRef.getPreferencesRef()).$loaded();
-                    })
-                }
-            }
-        })
-        $routeProvider.when("/categories", {
-            template: '<category-list categories="$resolve.categories"></category-list>',
-            resolve: {
-                categories: function (fbRef, $firebaseArray, auth) {
-                    return auth.$requireAuth().then(function () {
-                        var query = fbRef.getCategoriesRef().orderByChild("name");
-                        return $firebaseArray(query).$loaded();
                     })
                 }
             }
