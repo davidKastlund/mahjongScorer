@@ -1,3 +1,3 @@
 #Mahjong game 
 
-Testing firebase nad love mahjong!
+Testing firebase and love mahjong!
