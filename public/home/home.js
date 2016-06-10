@@ -13,7 +13,7 @@
                 vm.createExpense = function (expenseData) {
                     vm.expensesInOrder.$add(expenseData);
                 }
-                
+
                 vm.editExpense = function (expense) {
                     vm.editedExpense = expense;
                 }
@@ -37,7 +37,12 @@
                         player4: {
                             name: "Hampus"
                         }
-                    })
+                    }).then(function (ref) {
+                        var id = ref.key();
+                        var index = vm.games.$indexFor(id); // returns location in the array
+                        vm.selectGame(vm.games[index]);
+                    });
+
                 }
                 function getSelectedGamesRounds() {
                     return $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id));
@@ -46,7 +51,7 @@
                 var unbind;
                 vm.selectGame = function (game) {
                     resetPoints();
-                    
+
                     unbind && unbind();
 
                     $firebaseObject(fbRef.getGamesRef().child(game.$id)).$bindTo($scope, "vm.selectedGame")
@@ -85,7 +90,7 @@
                     }
                     return score;
                 }
-                
+
                 function getTotalScore(playerNr) {
                     var totalScore = 0;
                     var scoreThisRound = getScoreForPlayer(playerNr);
@@ -96,11 +101,11 @@
                     } else {
                         totalScore = scoreThisRound;
                     }
-                    
+
                     return totalScore;
-                    
+
                 }
-                
+
                 function resetPoints() {
                     vm.player1Score = 0;
                     vm.player2Score = 0;

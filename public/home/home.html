@@ -1,17 +1,10 @@
-<nav></nav>
+<nav select-game="vm.selectGame(game)"></nav>
 <div class="row">
     <div class="col-sm-5">
         <br><br>
         <button ng-click="vm.addNewGame()" class="btn btn-primary btn-sm">
       <span class="glyphicon glyphicon-plus"></span>
       Skapa nytt spel</button>
-        <br><br>
-
-        <div class="list-group">
-            <a href="" ng-repeat="game in vm.games" ng-click="vm.selectGame(game)" class="list-group-item" ng-class="{'active': game.$id == vm.selectedGame.$id}">
-                {{game.title}} {{game.createdDate}}                                    
-            </a>
-        </div>
         <div ng-if="vm.selectedGame">
             <div ng-if="vm.rounds.length">
                 <game-diagram rounds="vm.rounds" game="vm.selectedGame"></game-diagram>
@@ -19,7 +12,7 @@
         </div>
 
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-7">
         <div ng-if="vm.selectedGame">
             <h3><input type="text" ng-model="vm.selectedGame.title" class="form-control" placeholder="Titel"></h3> {{vm.selectedGame['player'
             + vm.selectedGame.whoIsWind].name}} har vind
