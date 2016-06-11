@@ -1,20 +1,34 @@
-<nav select-game="vm.selectGame(game)"></nav>
+<nav select-game="vm.selectGame(game)" create-new-game="vm.addNewGame()"></nav>
 <div class="row">
     <div class="col-sm-5">
-        <br><br>
-        <button ng-click="vm.addNewGame()" class="btn btn-primary btn-sm">
-      <span class="glyphicon glyphicon-plus"></span>
-      Skapa nytt spel</button>
-        <div ng-if="vm.selectedGame">
-            <div ng-if="vm.rounds.length">
-                <game-diagram rounds="vm.rounds" game="vm.selectedGame"></game-diagram>
-            </div>
+
+
+
+
+
+        <div class="input-group">
+            <select class="form-control" name="" id="" ng-model="vm.selectedGame" ng-change="vm.selectGame(vm.selectedGame)"
+                ng-options="game as game.title + ' ' + game.createdDate for game in vm.games track by game.$id">
+                <option value="">Välj omgång</option>
+            </select>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="vm.addNewGame()">+</button>
+            </span>
         </div>
+        <!-- /input-group -->
+
+        <!--<div ng-if="vm.selectedGame">
+            <div ng-if="vm.rounds.length">-->
+        <game-diagram rounds="vm.rounds" game="vm.selectedGame"></game-diagram>
+        <!--</div>
+        </div>-->
 
     </div>
     <div class="col-sm-7">
         <div ng-if="vm.selectedGame">
-            <h3><input type="text" ng-model="vm.selectedGame.title" class="form-control" placeholder="Titel"></h3> {{vm.selectedGame['player'
+
+            <input type="text" ng-model="vm.selectedGame.title" class="form-control"
+                placeholder="Beskrivning"> {{vm.selectedGame['player'
             + vm.selectedGame.whoIsWind].name}} har vind
             <table class="table table-condensed">
                 <thead>
@@ -27,7 +41,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="round in vm.rounds" ng-mouseenter="showAll = true;" ng-mouseleave="showAll = false;">
+                    <tr>
+                        <td><input type="text" class="form-control" ng-model="vm.player1Score">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="vm.player2Score">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="vm.player3Score">
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="vm.player4Score">
+                        </td>
+                        <td>
+
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="caret"></span>
+    </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="" ng-click="vm.addNewRound(1)">{{vm.selectedGame.player1.name}}</a></li>
+                                    <li><a href="" ng-click="vm.addNewRound(2)">{{vm.selectedGame.player2.name}}</a></li>
+                                    <li><a href="" ng-click="vm.addNewRound(3)">{{vm.selectedGame.player3.name}}</a></li>
+                                    <li><a href="" ng-click="vm.addNewRound(4)">{{vm.selectedGame.player4.name}}</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="round in vm.rounds | orderBy: '$id':true" ng-mouseenter="showAll = true;"
+                        ng-mouseleave="showAll = false;">
                         <td ng-class="{'success': round.player1.winner}">
                             <player-for-round player="round.player1" show-all="showAll"></player-for-round>
                         </td>
@@ -42,26 +85,7 @@
                         </td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td><input type="text" class="form-control" ng-model="vm.player1Score">
-                            <input type="radio" ng-model="vm.winner" value="1">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" ng-model="vm.player2Score">
-                            <input type="radio" ng-model="vm.winner" value="2">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" ng-model="vm.player3Score">
-                            <input type="radio" ng-model="vm.winner" value="3">
-                        </td>
-                        <td><input type="text" class="form-control" ng-model="vm.player4Score">
-                            <input type="radio" ng-model="vm.winner" value="4">
-                        </td>
-                        <td><button class="btn btn-success btn-sm" ng-click="vm.addNewRound()">
-                               <span class="glyphicon glyphicon-plus"></span>
-   
-                            </button></td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>

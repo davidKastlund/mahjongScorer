@@ -19,24 +19,36 @@
                 }
 
                 $scope.$watch(function () {
+                    return vm.game;
+                }, function (value) {
+                    vm.series = [
+                            vm.game.player1.name,
+                            vm.game.player2.name,
+                            vm.game.player3.name,
+                            vm.game.player4.name
+                        ];
+                })
+
+                $scope.$watch(function () {
                     return vm.rounds;
                 }, function (value) {
-
-                    vm.labels = vm.rounds.map(function (r, ind) {
-                        return ind + 1
-                    });
-                    vm.series = [
-                        vm.game.player1.name,
-                        vm.game.player2.name,
-                        vm.game.player3.name,
-                        vm.game.player4.name
-                    ];
-                    vm.data = [
-                        getScoreDataForPlayer("player1"),
-                        getScoreDataForPlayer("player2"),
-                        getScoreDataForPlayer("player3"),
-                        getScoreDataForPlayer("player4")
-                    ];
+                    if (value) {
+                        vm.labels = vm.rounds.map(function (r, ind) {
+                            return ind + 1
+                        });
+                        // vm.series = [
+                        //     vm.game.player1.name,
+                        //     vm.game.player2.name,
+                        //     vm.game.player3.name,
+                        //     vm.game.player4.name
+                        // ];
+                        vm.data = [
+                            getScoreDataForPlayer("player1"),
+                            getScoreDataForPlayer("player2"),
+                            getScoreDataForPlayer("player3"),
+                            getScoreDataForPlayer("player4")
+                        ];
+                    }
                 }, true);
 
 

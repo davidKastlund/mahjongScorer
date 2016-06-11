@@ -50,15 +50,19 @@
 
                 var unbind;
                 vm.selectGame = function (game) {
-                    resetPoints();
 
-                    unbind && unbind();
+                    if (game) {
+                        resetPoints();
 
-                    $firebaseObject(fbRef.getGamesRef().child(game.$id)).$bindTo($scope, "vm.selectedGame")
-                        .then(function (unbinder) {
-                            vm.rounds = getSelectedGamesRounds();
-                            unbind = unbinder;
-                        });
+                        unbind && unbind();
+
+                        $firebaseObject(fbRef.getGamesRef().child(game.$id)).$bindTo($scope, "vm.selectedGame")
+                            .then(function (unbinder) {
+                                vm.rounds = getSelectedGamesRounds();
+                                unbind = unbinder;
+                            });
+                    }
+
                 }
 
                 function getScoreForPlayer(playerNr) {
@@ -114,38 +118,40 @@
                     vm.winner = vm.winner || "1";
                 }
 
-                vm.addNewRound = function () {
+                vm.addNewRound = function (winner) {
 
 
-                    getSelectedGamesRounds().$add({
+                    vm.rounds.$add({
                         player1: {
                             points: vm.player1Score,
-                            winner: vm.winner === "1",
+                            winner: winner === 1,
                             isWind: vm.selectedGame.whoIsWind == 1,
                             score: getScoreForPlayer(1),
                             totalScore: getTotalScore(1)
                         },
                         player2: {
                             points: vm.player2Score,
-                            winner: vm.winner === "2",
+                            winner: winner === 2,
                             isWind: vm.selectedGame.whoIsWind == 2,
                             score: getScoreForPlayer(2),
                             totalScore: getTotalScore(2)
                         },
                         player3: {
                             points: vm.player3Score,
-                            winner: vm.winner === "3",
+                            winner: winner === 3,
                             isWind: vm.selectedGame.whoIsWind == 3,
                             score: getScoreForPlayer(3),
                             totalScore: getTotalScore(3)
                         },
                         player4: {
                             points: vm.player4Score,
-                            winner: vm.winner === "4",
+                            winner: winner === 4,
                             isWind: vm.selectedGame.whoIsWind == 4,
                             score: getScoreForPlayer(4),
                             totalScore: getTotalScore(4)
                         }
+                    }).then(function () {
+                        resetPoints();
                     });
 
                     if (vm.selectedGame.whoIsWind !== parseInt(vm.winner)) {
@@ -154,6 +160,8 @@
                             vm.selectedGame.whoIsWind = 1
                         }
                     }
+
+
                 }
 
             }
