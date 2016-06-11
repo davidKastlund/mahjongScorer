@@ -1,4 +1,10 @@
 <div ng-if="vm.showAll">
+    <b>Vind:</b> 
+    {{vm.player.isWind ? 'Ja': 'Nej'}}
+    <br>
+    <b>Vinnare:</b>
+    {{vm.player.winner ? 'Ja': 'Nej'}}
+    <br>
     <b>poäng:</b>
     <number-span number="vm.player.points"></number-span>
     <br>
@@ -7,4 +13,3 @@
 </div>
 <b ng-if="vm.showAll">Totalt:</b>
 <number-span number="vm.player.totalScore"></number-span>
-<span ng-if="vm.player.isWind" class="glyphicon glyphicon-grain"></span>

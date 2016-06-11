@@ -31,7 +31,6 @@
                     vm.games.$add({
                         title: "",
                         createdDate: new Date().toLocaleDateString(),
-                        whoIsWind: 1,
                         player1: {
                             name: "Kajsa"
                         },

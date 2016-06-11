@@ -66,10 +66,10 @@
                 }
 
                 function resetPoints() {
-                    vm.player1Score = 0;
-                    vm.player2Score = 0;
-                    vm.player3Score = 0;
-                    vm.player4Score = 0;
+                    vm.player1Score = undefined;
+                    vm.player2Score = undefined;
+                    vm.player3Score = undefined;
+                    vm.player4Score = undefined;
                 }
 
                 function getPlayer(playerNumber, playerScore, winner) {
@@ -98,8 +98,8 @@
                         }, 1000);
                     });
 
-                    if (vm.selectedGame.whoIsWind !== parseInt(winner)) {
-                        vm.selectedGame.whoIsWind = vm.selectedGame.whoIsWind + 1;
+                    if (parseInt(vm.selectedGame.whoIsWind) !== parseInt(winner)) {
+                        vm.selectedGame.whoIsWind = parseInt(vm.selectedGame.whoIsWind) + 1;
                         if (vm.selectedGame.whoIsWind === 5) {
                             vm.selectedGame.whoIsWind = 1
                         }

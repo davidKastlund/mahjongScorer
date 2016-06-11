@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-5">
 
-       <game-selector games="vm.games" selected-game="vm.selectedGame" game-is-selected="vm.gameIsSelected(game)"></game-selector>
+        <game-selector games="vm.games" selected-game="vm.selectedGame" game-is-selected="vm.gameIsSelected(game)"></game-selector>
 
         <div ng-if="vm.selectedGame">
             <div ng-if="vm.rounds.length">
@@ -12,70 +12,114 @@
 
     </div>
     <div class="col-sm-7">
-        <div ng-if="vm.selectedGame">
+        <form name="gameForm">
+            <div ng-if="vm.selectedGame">
 
-            <input type="text" ng-model="vm.selectedGame.title" class="form-control"
-                placeholder="Beskrivning"> {{vm.selectedGame['player'
-            + vm.selectedGame.whoIsWind].name}} har vind
-            <table class="table table-condensed">
-                <thead>
+                <table class="table">
                     <tr>
-                        <th ng-class="{'success': vm.selectedGame.player1.isEast}"><input type="text" class="form-control" ng-model="vm.selectedGame.player1.name"></th>
-                        <th><input type="text" class="form-control" ng-model="vm.selectedGame.player2.name"></th>
-                        <th><input type="text" class="form-control" ng-model="vm.selectedGame.player3.name"></th>
-                        <th><input type="text" class="form-control" ng-model="vm.selectedGame.player4.name"></th>
-                        <th></th>
+                        <th>Beskrivning</th>
+                        <td>
+                            <input type="text" ng-model="vm.selectedGame.title" class="form-control"
+                                placeholder="Beskrivning" />
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
                     <tr>
-                        <td><input type="text" class="form-control" ng-model="vm.player1Score"
-                                focus-me="vm.focusPlayer1Score">
-                        </td>
+                        <th>Har vind</th>
                         <td>
-                            <input type="text" class="form-control" ng-model="vm.player2Score">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" ng-model="vm.player3Score">
-                        </td>
-                        <td><input type="text" class="form-control" ng-model="vm.player4Score">
-                        </td>
-                        <td>
-
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="" ng-click="vm.addNewRound(1)">{{vm.selectedGame.player1.name}}</a></li>
-                                    <li><a href="" ng-click="vm.addNewRound(2)">{{vm.selectedGame.player2.name}}</a></li>
-                                    <li><a href="" ng-click="vm.addNewRound(3)">{{vm.selectedGame.player3.name}}</a></li>
-                                    <li><a href="" ng-click="vm.addNewRound(4)">{{vm.selectedGame.player4.name}}</a></li>
-                                </ul>
+                            <div ng-if="!vm.rounds || !vm.rounds.length" class="form-group" ng-class="{'has-error': gameForm.whoIsWind.$invalid}">
+                                <select ng-model="vm.selectedGame.whoIsWind" name="whoIsWind" required="true"
+                                    class="form-control">
+                                    <option value="1">{{vm.selectedGame.player1.name}}</option>
+                                    <option value="2">{{vm.selectedGame.player2.name}}</option>
+                                    <option value="3">{{vm.selectedGame.player3.name}}</option>
+                                    <option value="4">{{vm.selectedGame.player4.name}}</option>
+                                </select>
+                            </div>
+                            <div ng-if="vm.rounds && vm.rounds.length">
+                                {{vm.selectedGame['player' + vm.selectedGame.whoIsWind].name}}
                             </div>
                         </td>
                     </tr>
-                    <tr ng-repeat="round in vm.rounds | orderBy: '$id':true" ng-mouseenter="showAll = true;"
-                        ng-mouseleave="showAll = false;">
-                        <td ng-class="{'success': round.player1.winner}">
-                            <player-for-round player="round.player1" show-all="showAll"></player-for-round>
-                        </td>
-                        <td ng-class="{'success': round.player2.winner}">
-                            <player-for-round player="round.player2" show-all="showAll"></player-for-round>
-                        </td>
-                        <td ng-class="{'success': round.player3.winner}">
-                            <player-for-round player="round.player3" show-all="showAll"></player-for-round>
-                        </td>
-                        <td ng-class="{'success': round.player4.winner}">
-                            <player-for-round player="round.player4" show-all="showAll"></player-for-round>
-                        </td>
-                        <td></td>
-                    </tr>
+                </table>
 
-                </tbody>
-            </table>
-        </div>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th ng-class="{'success': vm.selectedGame.player1.isEast}"><input type="text" class="form-control" ng-model="vm.selectedGame.player1.name"></th>
+                            <th><input type="text" class="form-control" ng-model="vm.selectedGame.player2.name"></th>
+                            <th><input type="text" class="form-control" ng-model="vm.selectedGame.player3.name"></th>
+                            <th><input type="text" class="form-control" ng-model="vm.selectedGame.player4.name"></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="form-group" ng-class="{'has-error': gameForm.player1.$invalid}">
+                                <input type="number" class="form-control" ng-required="true" name="player1"
+                                    ng-model="vm.player1Score" focus-me="vm.focusPlayer1Score">
+
+                            </td>
+                            <td class="form-group" ng-class="{'has-error': gameForm.player2.$invalid}">
+                                <input type="number" class="form-control" ng-required="true" name="player2"
+                                    ng-model="vm.player2Score" focus-me="vm.focusPlayer2Score">
+
+                            </td>
+                            <td class="form-group" ng-class="{'has-error': gameForm.player3.$invalid}">
+                                <input type="number" class="form-control" ng-required="true" name="player3"
+                                    ng-model="vm.player3Score" focus-me="vm.focusPlayer3Score">
+
+                            </td>
+                            <td class="form-group" ng-class="{'has-error': gameForm.player4.$invalid}">
+                                <input type="number" class="form-control" ng-required="true" name="player4"
+                                    ng-model="vm.player4Score" focus-me="vm.focusPlayer4Score">
+
+                            </td>
+                            <td>
+
+                                <div class="btn-group" role="group">
+                                    <button type="button" ng-disabled="gameForm.$invalid" class="btn btn-success dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="" ng-click="vm.addNewRound(1)">{{vm.selectedGame.player1.name}}</a></li>
+                                        <li><a href="" ng-click="vm.addNewRound(2)">{{vm.selectedGame.player2.name}}</a></li>
+                                        <li><a href="" ng-click="vm.addNewRound(3)">{{vm.selectedGame.player3.name}}</a></li>
+                                        <li><a href="" ng-click="vm.addNewRound(4)">{{vm.selectedGame.player4.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="round in vm.rounds" ng-click="round.showMore = !round.showMore"
+                            class="pointable">
+                            <td dk-cell-color="round.player1">
+                                <player-for-round player="round.player1" show-all="round.showMore"></player-for-round>
+                            </td>
+                            <td dk-cell-color="round.player2">
+                                <player-for-round player="round.player2" show-all="round.showMore"></player-for-round>
+                            </td>
+                            <td dk-cell-color="round.player3">
+                                <player-for-round player="round.player3" show-all="round.showMore"></player-for-round>
+                            </td>
+                            <td dk-cell-color="round.player4">
+                                <player-for-round player="round.player4" show-all="round.showMore"></player-for-round>
+                            </td>
+                            <td>
+                                <div class="pull-right">
+                                    <a href="">
+                                        <span ng-show="round.showMore" class="glyphicon glyphicon-ok-sign"></span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
     </div>
 </div>

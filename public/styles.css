@@ -2,6 +2,14 @@ body {
     padding-top: 70px;
 }
 
-.text-danger {
-    color: red;
+.super-success {
+    background-color: #5cb85c;
 }
+
+.pointable {
+    cursor: pointer
+}
+
+/*.text-danger {
+    color: red;
+}*/
