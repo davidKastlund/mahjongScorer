@@ -4,28 +4,15 @@
         .component('home', {
             templateUrl: 'home/home.html',
             bindings: {
-                expensesInOrder: "=",
                 games: "="
             },
             controllerAs: "vm",
-            controller: function (fbRef, $firebaseArray, $firebaseObject, $scope) {
+            controller: function (fbRef, $firebaseArray) {
                 var vm = this;
-
-                vm.createExpense = function (expenseData) {
-                    vm.expensesInOrder.$add(expenseData);
-                }
-
-                vm.editExpense = function (expense) {
-                    vm.editedExpense = expense;
-                }
-                vm.saveEditedExpense = function () {
-                    vm.expensesInOrder.$save(vm.editedExpense);
-                }
+               
                 function getSelectedGamesRounds() {
                     return $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id));
                 }
-
-                
 
                 vm.gameIsSelected = function (game) {
                     vm.selectedGame = game;
@@ -35,14 +22,14 @@
 
                 function getScoreForPlayer(playerNr, winner) {
                     var myPoints = parseInt(vm["player" + playerNr + "Score"]);
-                    var isWinner = parseInt(winner) === playerNr;
+                    var isWinner = winner === playerNr;
                     var isWind = vm.selectedGame.whoIsWind === playerNr;
                     var score = 0;
                     for (var i = 1; i < 5; i++) {
                         if (i != playerNr) {
                             var otherPlayer = {
                                 points: parseInt(vm["player" + i + "Score"]),
-                                isWinner: parseInt(winner) === i,
+                                isWinner: winner === i,
                                 isWind: vm.selectedGame.whoIsWind === i
                             };
                             var points = 0;

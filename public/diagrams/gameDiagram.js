@@ -36,12 +36,6 @@
                         vm.labels = vm.rounds.map(function (r, ind) {
                             return ind + 1
                         });
-                        // vm.series = [
-                        //     vm.game.player1.name,
-                        //     vm.game.player2.name,
-                        //     vm.game.player3.name,
-                        //     vm.game.player4.name
-                        // ];
                         vm.data = [
                             getScoreDataForPlayer("player1"),
                             getScoreDataForPlayer("player2"),
@@ -50,12 +44,6 @@
                         ];
                     }
                 }, true);
-
-
-                // vm.onClick = function (points, evt) {
-                //     console.log(points, evt);
-                // };
-
             }
         });
 })();
