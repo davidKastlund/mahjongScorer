@@ -2,19 +2,7 @@
 <div class="row">
     <div class="col-sm-5">
 
-
-
-
-
-        <div class="input-group">
-            <select class="form-control" name="" id="" ng-model="vm.selectedGame" ng-change="vm.selectGame(vm.selectedGame)"
-                ng-options="game as game.title + ' ' + game.createdDate for game in vm.games track by game.$id">
-                <option value="">Välj omgång</option>
-            </select>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="vm.addNewGame()">+</button>
-            </span>
-        </div>
+       <game-selector games="vm.games" selected-game="vm.selectedGame" game-is-selected="vm.gameIsSelected(game)"></game-selector>
 
         <div ng-if="vm.selectedGame">
             <div ng-if="vm.rounds.length">

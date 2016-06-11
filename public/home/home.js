@@ -21,49 +21,16 @@
                 vm.saveEditedExpense = function () {
                     vm.expensesInOrder.$save(vm.editedExpense);
                 }
-                vm.addNewGame = function () {
-                    vm.games.$add({
-                        title: "",
-                        createdDate: new Date().toLocaleDateString(),
-                        whoIsWind: 1,
-                        player1: {
-                            name: "Kajsa"
-                        },
-                        player2: {
-                            name: "David"
-                        },
-                        player3: {
-                            name: "Klara"
-                        },
-                        player4: {
-                            name: "Hampus"
-                        }
-                    }).then(function (ref) {
-                        var id = ref.key();
-                        var index = vm.games.$indexFor(id); // returns location in the array
-                        vm.selectGame(vm.games[index]);
-                    });
-
-                }
                 function getSelectedGamesRounds() {
                     return $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id));
                 }
 
-                var unbind;
-                vm.selectGame = function (game) {
+                
 
-                    if (game) {
-                        resetPoints();
-
-                        unbind && unbind();
-
-                        $firebaseObject(fbRef.getGamesRef().child(game.$id)).$bindTo($scope, "vm.selectedGame")
-                            .then(function (unbinder) {
-                                vm.rounds = getSelectedGamesRounds();
-                                unbind = unbinder;
-                            });
-                    }
-
+                vm.gameIsSelected = function (game) {
+                    vm.selectedGame = game;
+                    resetPoints();
+                    vm.rounds = getSelectedGamesRounds();
                 }
 
                 function getScoreForPlayer(playerNr, winner) {
@@ -118,38 +85,24 @@
                     vm.player4Score = 0;
                 }
 
+                function getPlayer(playerNumber, playerScore, winner) {
+                    return {
+                            points: playerScore,
+                            winner: winner === playerNumber,
+                            isWind: vm.selectedGame.whoIsWind == playerNumber,
+                            score: getScoreForPlayer(playerNumber, winner),
+                            totalScore: getTotalScore(playerNumber, winner)
+                        };
+                }
+
                 vm.addNewRound = function (winner) {
 
 
                     vm.rounds.$add({
-                        player1: {
-                            points: vm.player1Score,
-                            winner: winner === 1,
-                            isWind: vm.selectedGame.whoIsWind == 1,
-                            score: getScoreForPlayer(1, winner),
-                            totalScore: getTotalScore(1, winner)
-                        },
-                        player2: {
-                            points: vm.player2Score,
-                            winner: winner === 2,
-                            isWind: vm.selectedGame.whoIsWind == 2,
-                            score: getScoreForPlayer(2, winner),
-                            totalScore: getTotalScore(2, winner)
-                        },
-                        player3: {
-                            points: vm.player3Score,
-                            winner: winner === 3,
-                            isWind: vm.selectedGame.whoIsWind == 3,
-                            score: getScoreForPlayer(3, winner),
-                            totalScore: getTotalScore(3, winner)
-                        },
-                        player4: {
-                            points: vm.player4Score,
-                            winner: winner === 4,
-                            isWind: vm.selectedGame.whoIsWind == 4,
-                            score: getScoreForPlayer(4, winner),
-                            totalScore: getTotalScore(4, winner)
-                        }
+                        player1: getPlayer(1, vm.player1Score, winner),
+                        player2: getPlayer(2, vm.player2Score, winner),
+                        player3: getPlayer(3, vm.player3Score, winner),
+                        player4: getPlayer(4, vm.player4Score, winner),
                     }).then(function () {
                         resetPoints();
                         vm.focusPlayer1Score = true;
