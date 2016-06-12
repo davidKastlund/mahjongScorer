@@ -10,7 +10,7 @@
                 gameIsSelected: "&"
             },
             controllerAs: 'vm',
-            controller: function ($firebaseObject, fbRef, $scope, $firebaseArray) {
+            controller: function ($firebaseObject, fbRef, $scope, $firebaseArray, ModalHelper) {
                 var vm = this;
 
                 var unbind;
@@ -29,25 +29,28 @@
 
                 vm.removeSelectedGame = function () {
 
-                    if (vm.selectedGame) {
-                         $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id)).$loaded().then(function (roundsToRemove) {
-                        console.info(roundsToRemove);
-                        angular.forEach(roundsToRemove, function (r) {
-                            roundsToRemove.$remove(r);
-                        });
-                    });
-
-                    var id = vm.selectedGame.$id;
-
-                    unbind && unbind();
-
-                    vm.selectedGame = null;
-
-                    $firebaseObject(fbRef.getGamesRef().child(id)).$remove()
+                    ModalHelper.dkConfirm("Är du säker på att du vill ta bort spelet?", "Ta bort spel")
                         .then(function () {
-                            console.info("spelet är borttaget!");
+                            if (vm.selectedGame) {
+                                $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id)).$loaded().then(function (roundsToRemove) {
+                                    console.info(roundsToRemove);
+                                    angular.forEach(roundsToRemove, function (r) {
+                                        roundsToRemove.$remove(r);
+                                    });
+                                });
+
+                                var id = vm.selectedGame.$id;
+
+                                unbind && unbind();
+
+                                vm.selectedGame = null;
+
+                                $firebaseObject(fbRef.getGamesRef().child(id)).$remove()
+                                    .then(function () {
+                                        console.info("spelet är borttaget!");
+                                    });
+                            }
                         });
-                    }
                 }
 
                 vm.addNewGame = function () {
