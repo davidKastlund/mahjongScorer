@@ -84,44 +84,25 @@
 
                 function getWhoIsWind() {
                     var lastRound = vm.lastRound();
-                    var lastRoundInfo = {};
+                    var whatPlayerIsWind = null;
 
                     if (lastRound) {
-                        if (lastRound.player1.isWind) {
-                            lastRoundInfo.wind = 1;
-                            if (lastRound.player1.winner) {
-                                lastRoundInfo.windIsWinner = true;
-                            }
-                        }
-                        if (lastRound.player2.isWind) {
-                            lastRoundInfo.wind = 2;
-                            if (lastRound.player2.winner) {
-                                lastRoundInfo.windIsWinner = true;
-                            }
-                        }
-                        if (lastRound.player3.isWind) {
-                            lastRoundInfo.wind = 3;
-                            if (lastRound.player3.winner) {
-                                lastRoundInfo.windIsWinner = true;
-                            }
-                        }
-                        if (lastRound.player4.isWind) {
-                            lastRoundInfo.wind = 4;
-                            if (lastRound.player4.winner) {
-                                lastRoundInfo.windIsWinner = true;
-                            }
-                        }
-
-                        vm.selectedGame.whoIsWind = lastRoundInfo.wind;
-                        if (!lastRoundInfo.windIsWinner) {
-                            lastRoundInfo.wind = (lastRoundInfo.wind + 1);
-                            if (lastRoundInfo.wind === 5) {
-                                lastRoundInfo.wind = 1;
+                        for (var i = 1; i < 5; i++) {
+                            var player = lastRound["player" + i];
+                            if (player.isWind) {
+                                whatPlayerIsWind = i;
+                                if (!player.winner) {
+                                    whatPlayerIsWind++;
+                                    if (whatPlayerIsWind === 5) {
+                                        whatPlayerIsWind = 1;
+                                    }
+                                }
+                                break;
                             }
                         }
                     }
 
-                    return lastRoundInfo.wind || null;
+                    return whatPlayerIsWind;
                 }
 
                 vm.lastRound = function () {
