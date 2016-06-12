@@ -32,16 +32,16 @@
                         title: "",
                         createdDate: new Date().toLocaleDateString(),
                         player1: {
-                            name: "Kajsa"
+                            name: "Spelare 1"
                         },
                         player2: {
-                            name: "David"
+                            name: "Spelare 2"
                         },
                         player3: {
-                            name: "Klara"
+                            name: "Spelare 3"
                         },
                         player4: {
-                            name: "Hampus"
+                            name: "Spelare 4"
                         }
                     }).then(function (ref) {
                         var id = ref.key();
