@@ -9,12 +9,10 @@
                 <game-diagram rounds="vm.rounds" game="vm.selectedGame"></game-diagram>
             </div>
         </div>
-
     </div>
     <div class="col-sm-7">
         <form name="gameForm">
             <div ng-if="vm.selectedGame">
-
                 <table class="table">
                     <tr>
                         <th>Beskrivning</th>
@@ -109,6 +107,9 @@
                             </td>
                             <td>
                                 <div class="pull-right">
+                                   <button class="btn btn-sm btn-danger" ng-if="round === vm.lastRound()" ng-click="vm.removeLastRound()">
+                                       <span class="glyphicon glyphicon-trash"></span>
+                                   </button>
                                     <a href="">
                                         <span ng-show="round.showMore" class="glyphicon glyphicon-ok-sign"></span>
                                     </a>

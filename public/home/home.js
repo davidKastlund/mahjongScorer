@@ -82,6 +82,16 @@
                         };
                 }
 
+                vm.lastRound = function() {
+                    return vm.rounds && vm.rounds.length && vm.rounds[vm.rounds.length -1];
+                }
+
+                vm.removeLastRound = function () {
+                    if (vm.rounds && vm.rounds.length) {
+                        vm.rounds.$remove(vm.lastRound());
+                    }
+                }
+
                 vm.addNewRound = function (winner) {
 
 
