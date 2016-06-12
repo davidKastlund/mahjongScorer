@@ -10,7 +10,7 @@
                 gameIsSelected: "&"
             },
             controllerAs: 'vm',
-            controller: function ($firebaseObject, fbRef, $scope) {
+            controller: function ($firebaseObject, fbRef, $scope, $firebaseArray) {
                 var vm = this;
 
                 var unbind;
@@ -21,9 +21,32 @@
 
                         $firebaseObject(fbRef.getGamesRef().child(game.$id)).$bindTo($scope, "vm.selectedGame")
                             .then(function (unbinder) {
-                                vm.gameIsSelected({game: vm.selectedGame});
+                                vm.gameIsSelected({ game: vm.selectedGame });
                                 unbind = unbinder;
                             });
+                    }
+                }
+
+                vm.removeSelectedGame = function () {
+
+                    if (vm.selectedGame) {
+                         $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id)).$loaded().then(function (roundsToRemove) {
+                        console.info(roundsToRemove);
+                        angular.forEach(roundsToRemove, function (r) {
+                            roundsToRemove.$remove(r);
+                        });
+                    });
+
+                    var id = vm.selectedGame.$id;
+
+                    unbind && unbind();
+
+                    vm.selectedGame = null;
+
+                    $firebaseObject(fbRef.getGamesRef().child(id)).$remove()
+                        .then(function () {
+                            console.info("spelet är borttaget!");
+                        });
                     }
                 }
 
@@ -49,7 +72,7 @@
                         vm.selectGame(vm.games[index]);
                     });
 
-                }   
+                }
             }
         });
 })();

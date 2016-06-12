@@ -4,8 +4,11 @@
                 <option value="">Välj omgång</option>
             </select>
     <span class="input-group-btn">
-                <button class="btn btn-success" type="button" ng-click="vm.addNewGame()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-            </span>
+        <button class="btn btn-success" type="button" ng-click="vm.addNewGame()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <button ng-if="vm.selectedGame" ng-click="vm.removeSelectedGame()" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+    </span>
 </div>
