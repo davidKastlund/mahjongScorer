@@ -82,16 +82,60 @@
                     };
                 }
 
+                function getWhoIsWind() {
+                    var lastRound = vm.lastRound();
+                    var lastRoundInfo = {};
+
+                    if (lastRound) {
+                        if (lastRound.player1.isWind) {
+                            lastRoundInfo.wind = 1;
+                            if (lastRound.player1.winner) {
+                                lastRoundInfo.windIsWinner = true;
+                            }
+                        }
+                        if (lastRound.player2.isWind) {
+                            lastRoundInfo.wind = 2;
+                            if (lastRound.player2.winner) {
+                                lastRoundInfo.windIsWinner = true;
+                            }
+                        }
+                        if (lastRound.player3.isWind) {
+                            lastRoundInfo.wind = 3;
+                            if (lastRound.player3.winner) {
+                                lastRoundInfo.windIsWinner = true;
+                            }
+                        }
+                        if (lastRound.player4.isWind) {
+                            lastRoundInfo.wind = 4;
+                            if (lastRound.player4.winner) {
+                                lastRoundInfo.windIsWinner = true;
+                            }
+                        }
+
+                        vm.selectedGame.whoIsWind = lastRoundInfo.wind;
+                        if (!lastRoundInfo.windIsWinner) {
+                            lastRoundInfo.wind = (lastRoundInfo.wind + 1);
+                            if (lastRoundInfo.wind === 5) {
+                                lastRoundInfo.wind = 1;
+                            }
+                        }
+                    }
+
+                    return lastRoundInfo.wind || null;
+                }
+
                 vm.lastRound = function () {
                     return vm.rounds && vm.rounds.length && vm.rounds[vm.rounds.length - 1];
                 }
 
                 vm.removeLastRound = function () {
-                    
+
                     ModalHelper.dkConfirm("Är du säker på att du vill ta bort raden?", "Ta bort rad")
                         .then(function () {
                             if (vm.rounds && vm.rounds.length) {
-                                vm.rounds.$remove(vm.lastRound());
+                                vm.rounds.$remove(vm.lastRound()).then(function () {
+                                    vm.selectedGame.whoIsWind = getWhoIsWind();
+                                });
                             }
                         });
                 }
@@ -105,20 +149,14 @@
                         player3: getPlayer(3, vm.player3Score, winner),
                         player4: getPlayer(4, vm.player4Score, winner),
                     }).then(function () {
+                        vm.selectedGame.whoIsWind = getWhoIsWind();
+
                         resetPoints();
                         vm.focusPlayer1Score = true;
                         setTimeout(function () {
                             vm.focusPlayer1Score = false;
                         }, 1000);
                     });
-
-                    if (parseInt(vm.selectedGame.whoIsWind) !== parseInt(winner)) {
-                        vm.selectedGame.whoIsWind = parseInt(vm.selectedGame.whoIsWind) + 1;
-                        if (vm.selectedGame.whoIsWind === 5) {
-                            vm.selectedGame.whoIsWind = 1
-                        }
-                    }
-
 
                 }
 
