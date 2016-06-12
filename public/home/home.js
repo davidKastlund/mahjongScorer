@@ -7,9 +7,9 @@
                 games: "="
             },
             controllerAs: "vm",
-            controller: function (fbRef, $firebaseArray) {
+            controller: function (fbRef, $firebaseArray, ModalHelper) {
                 var vm = this;
-               
+
                 function getSelectedGamesRounds() {
                     return $firebaseArray(fbRef.getRoundsRef().child(vm.selectedGame.$id));
                 }
@@ -74,22 +74,26 @@
 
                 function getPlayer(playerNumber, playerScore, winner) {
                     return {
-                            points: playerScore,
-                            winner: winner === playerNumber,
-                            isWind: vm.selectedGame.whoIsWind == playerNumber,
-                            score: getScoreForPlayer(playerNumber, winner),
-                            totalScore: getTotalScore(playerNumber, winner)
-                        };
+                        points: playerScore,
+                        winner: winner === playerNumber,
+                        isWind: vm.selectedGame.whoIsWind == playerNumber,
+                        score: getScoreForPlayer(playerNumber, winner),
+                        totalScore: getTotalScore(playerNumber, winner)
+                    };
                 }
 
-                vm.lastRound = function() {
-                    return vm.rounds && vm.rounds.length && vm.rounds[vm.rounds.length -1];
+                vm.lastRound = function () {
+                    return vm.rounds && vm.rounds.length && vm.rounds[vm.rounds.length - 1];
                 }
 
                 vm.removeLastRound = function () {
-                    if (vm.rounds && vm.rounds.length) {
-                        vm.rounds.$remove(vm.lastRound());
-                    }
+                    
+                    ModalHelper.dkConfirm("Är du säker på att du vill ta bort raden?", "Ta bort rad")
+                        .then(function () {
+                            if (vm.rounds && vm.rounds.length) {
+                                vm.rounds.$remove(vm.lastRound());
+                            }
+                        });
                 }
 
                 vm.addNewRound = function (winner) {
@@ -103,8 +107,8 @@
                     }).then(function () {
                         resetPoints();
                         vm.focusPlayer1Score = true;
-                        setTimeout(function() {
-                          vm.focusPlayer1Score = false;        
+                        setTimeout(function () {
+                            vm.focusPlayer1Score = false;
                         }, 1000);
                     });
 

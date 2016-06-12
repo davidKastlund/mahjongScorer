@@ -107,7 +107,7 @@
                             </td>
                             <td>
                                 <div class="pull-right">
-                                   <button class="btn btn-sm btn-danger" ng-if="round === vm.lastRound()" ng-click="vm.removeLastRound()">
+                                   <button class="btn btn-sm btn-danger" ng-if="round === vm.lastRound()" ng-click="vm.removeLastRound(); $event.stopPropagation();">
                                        <span class="glyphicon glyphicon-trash"></span>
                                    </button>
                                     <a href="">
